@@ -2,7 +2,9 @@
   <div>
     <h3>My Boards</h3>
     <div class="boards-collection">
-        <span v-if="fetchingData">Loading...</span>
+      <template v-if="fetchingData">
+        <span>Loading...</span>
+      </template>
       <input
         type="text"
         placeholder= "Add new board"
@@ -46,9 +48,9 @@ export default {
       this.addBoard({ name: this.boardName });
       this.boardName = '';
     },
-    created() {
-      this.fetchBoards({ user: 1 });
-    },
+  },
+  created() {
+    this.fetchBoards({ user: 1 });
   },
 };
 </script>
