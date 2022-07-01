@@ -1,8 +1,9 @@
 <template>
 <section>
     <ul>
-        <li v-for="(task, index) in tasks" :key="index" :class="{ completed: task.completed }">
-        {{ task.name }}
+      <li v-for="(task, index) in tasks" :key="index" :class="{ completed: task.completed }"
+      @click="markAsCompleted({ task })">
+        {{ task.title }}
         </li>
     </ul>
     <input type="text" v-model="title" placeholder="Add a new task" @keyup.enter="add()">
@@ -10,10 +11,12 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'task-list',
   props: {
-    listID: String,
+    listId: String,
     tasks: Array,
   },
   data() {
@@ -22,8 +25,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions([
+      'addTask',
+      'markAsCompleted',
+    ]),
     add() {
-    // tasks.push(this.title);
+      this.addTask({ list: this.listId, title: this.title });
+      this.title = '';
     },
   },
 };

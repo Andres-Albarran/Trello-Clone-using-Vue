@@ -36,7 +36,7 @@ export default {
     state.error = error;
   },
 
-  // Fetch the tasks from a list
+  // Fetch the tasks frosm a list
   [types.FETCH_TASKS_REQUEST](state) {
     state.fetchingData = true;
     state.error = null;
@@ -45,7 +45,7 @@ export default {
   [types.FETCH_TASKS_SUCCESS](state, { tasks }) {
     state.fetchingData = false;
     state.error = null;
-    state.tasks = { ...tasks };
+    state.tasks = Object.assign({}, state.tasks, tasks);
   },
 
   [types.FETCH_TASKS_FAILURE](state, { error }) {

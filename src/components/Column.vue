@@ -4,7 +4,7 @@
             <h3> {{ name }}</h3>
         </header>
         <task-list
-        :listId="ListId"
+        :listId="listId"
         :tasks="taskList">
         </task-list>
     </section>
@@ -12,6 +12,7 @@
 
 <script>
 import taskList from '@/components/taskList';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Column',
@@ -20,13 +21,21 @@ export default {
     listId: String,
     name: String,
   },
-  data() {
-    return {
-      taskList: [
-        { id: '1', name: 'Task', completed: false },
-        { id: '2', name: 'Task2', completed: false },
-      ],
-    };
+  computed: {
+    ...mapGetters([
+      'getTasksFromList',
+    ]),
+    taskList() {
+      return this.getTasksFromList(this.listId);
+    },
+  },
+  methods: {
+    ...mapActions([
+      'fetchTasks',
+    ]),
+  },
+  created() {
+    this.fetchTasks({ list: this.listId });
   },
 };
 </script>
