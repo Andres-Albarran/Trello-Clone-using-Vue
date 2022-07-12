@@ -78,4 +78,16 @@ export default {
   [types.MARK_AS_COMPLETED](state, { task }) {
     task.completed = !task.completed;
   },
+  USER_DETAILS(state, userProfile) {
+    state.loggedIn = true;
+    state.userProfile = {
+      name: userProfile.displayName,
+      picture: userProfile.photoURL,
+      email: userProfile.email,
+    };
+  },
+  LOGOUT(state) {
+    state.loggedIn = false;
+    state.userProfile = {};
+  },
 };

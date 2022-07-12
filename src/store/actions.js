@@ -1,4 +1,5 @@
 import API from '@/api';
+import firebase from 'firebase/app';
 import * as types from './mutation-types';
 
 export default {
@@ -24,8 +25,8 @@ export default {
       .catch(error => commit(types.FETCH_LISTS_FAILURE, { error }));
   },
   // Add a new board via AJAX
-  addBoard({ commit }, { name }) {
-    API.postBoard(name)
+  addBoard({ commit }, { usuario, name }) {
+    API.postBoard(usuario, name)
       .then(board => commit(types.ADD_BOARD, { board }));
   },
   // Add a new column/list to a board via AJAX
@@ -47,5 +48,25 @@ export default {
   markAsCompleted({ commit }, { task }) {
     API.completedTask(task.id)
       .then(() => commit(types.MARK_AS_COMPLETED, { task }));
+  },
+
+  async login(store) {
+    if (store.state.loggedIn) {
+      return;
+    }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    try {
+      await firebase.auth().signInWithPopup(provider);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async logout() {
+    try {
+      await firebase.auth().signOut();
+    } catch (error) {
+      console.log(error);
+    }
   },
 };

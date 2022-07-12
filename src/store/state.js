@@ -2,6 +2,8 @@ export default {
   user: null,
   fetchingData: true,
   error: null,
+  userProfile: {},
+  loggedIn: false,
 
   boards: {/*
     id: {

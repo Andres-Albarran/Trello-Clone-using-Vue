@@ -1,18 +1,42 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <router-view class="container"></router-view>
-    <app-footer></app-footer>
+    <app-header
+      :login="login"
+      :logout="logout"
+      :userProfile="userProfile"
+      :loggedIn="loggedIn"
+    ></app-header>
+    <template v-if="loggedIn">
+      <router-view class="container"></router-view>
+      <app-footer></app-footer>
+    </template>
+    <template v-else>
+      <h1>Debes iniciar sesion</h1>
+      <app-footer></app-footer>
+    </template>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import AppHeader from '@/components/AppHeader';
 import AppFooter from '@/components/AppFooter';
 
 export default {
   name: 'App',
   components: { AppHeader, AppFooter },
+  computed: {
+    ...mapGetters({
+      userProfile: 'userProfile',
+      loggedIn: 'loggedIn',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      login: 'login',
+      logout: 'logout',
+    }),
+  },
 };
 </script>
 

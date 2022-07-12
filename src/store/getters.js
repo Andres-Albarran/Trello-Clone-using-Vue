@@ -7,4 +7,6 @@ export default {
     return Object.values(state.tasks)
       .filter(task => task.list === listId);
   },
+  userProfile: ({userProfile}) => userProfile,
+  loggedIn: ({loggedIn}) => loggedIn
 };

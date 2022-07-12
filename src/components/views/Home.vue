@@ -1,3 +1,4 @@
+<!-- eslint-disable no-underscore-dangle -->
 <template>
   <div>
     <h3>My Boards</h3>
@@ -23,7 +24,9 @@
 
 <script>
 import BoardCard from '@/components/BoardCard';
-import { mapState, mapActions } from 'vuex';
+import state from '@/store/state';
+
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'home-view',
@@ -38,6 +41,10 @@ export default {
       'boards',
       'fetchingData',
     ]),
+    ...mapGetters({
+      userProfile: 'userProfile',
+      loggedIn: 'loggedIn',
+    }),
   },
   methods: {
     ...mapActions([
@@ -45,12 +52,12 @@ export default {
       'addBoard',
     ]),
     add() {
-      this.addBoard({ name: this.boardName });
+      this.addBoard({ usuario: this.userProfile.email, name: this.boardName });
       this.boardName = '';
     },
   },
   created() {
-    this.fetchBoards({ user: 1 });
+    this.fetchBoards({ user: this.userProfile.email });
   },
 };
 </script>
